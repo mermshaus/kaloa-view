@@ -2,6 +2,7 @@
 
 namespace Kaloa\View;
 
+use Closure;
 
 /**
  *
@@ -17,10 +18,29 @@ class View
 
     /**
      *
+     * @var Closure
+     */
+    protected $__escapeFunction;
+
+    /**
+     *
      */
     public function __construct()
     {
         $this->__vars = array();
+
+        $this->__escapeFunction = function ($s) {
+            return htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
+        };
+    }
+
+    /**
+     *
+     * @param Closure $f
+     */
+    protected function setEscapeFunction(Closure $f)
+    {
+        $this->__escapeFunction = $f;
     }
 
     /**
@@ -46,6 +66,7 @@ class View
     /**
      *
      * @param string $template
+     * @param array  $vars
      */
     public function render($template, array $vars = array())
     {
@@ -69,7 +90,9 @@ class View
      */
     public function escape($s)
     {
-        return htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
+        $f = $this->__escapeFunction;
+
+        return $f($s);
     }
 
     /**
