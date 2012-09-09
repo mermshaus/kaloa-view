@@ -1,52 +1,52 @@
 <?php
+/**
+ * Kaloa Library (http://www.kaloa.org/)
+ *
+ * @license http://www.kaloa.org/license.txt MIT License
+ */
 
 namespace Kaloa\View;
 
 use Closure;
 
 /**
- *
- * @author Marc Ermshaus <marc@ermshaus.org>
+ * Basic view class.
  */
 class View
 {
-    /**
-     *
-     * @var array
-     */
+    /** @var array Variables set for this view. */
     protected $__vars;
 
-    /**
-     *
-     * @var Closure
-     */
+    /** @var Closure The function used by the escape method. */
     protected $__escapeFunction;
 
     /**
-     *
+     * Initializes the instance.
      */
     public function __construct()
     {
         $this->__vars = array();
 
-        $this->__escapeFunction = function ($s) {
-            return htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
+        $this->__escapeFunction = function ($string) {
+            return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
         };
     }
 
     /**
+     * Sets the escape function used by the escape method.
      *
-     * @param Closure $f
+     * @param Closure $escapeFunction New escape function.
      */
-    protected function setEscapeFunction(Closure $f)
+    public function setEscapeFunction(Closure $escapeFunction)
     {
-        $this->__escapeFunction = $f;
+        $this->__escapeFunction = $escapeFunction;
     }
 
     /**
+     * Assigns a variable.
      *
-     * @param string $name
-     * @param mixed  $value
+     * @param string $name Key to bind variable to.
+     * @param mixed  $value Value for key.
      */
     public function __set($name, $value)
     {
@@ -54,9 +54,10 @@ class View
     }
 
     /**
+     * Returns the value of an assigned variable.
      *
-     * @param  string $name
-     * @return mixed
+     * @param  string $name Key to get value for.
+     * @return mixed Value or null if not set.
      */
     public function __get($name)
     {
@@ -64,9 +65,10 @@ class View
     }
 
     /**
+     * Renders a template file.
      *
-     * @param string $template
-     * @param array  $vars
+     * @param string $template Template file to render.
+     * @param array  $vars Additional variables might be assigned.
      */
     public function render($template, array $vars = array())
     {
@@ -84,19 +86,20 @@ class View
     }
 
     /**
+     * Escapes a string.
      *
-     * @param  string $s
-     * @return string
+     * @param  string $string String to escape.
+     * @return string Escaped string.
      */
-    public function escape($s)
+    public function escape($string)
     {
-        $f = $this->__escapeFunction;
+        $escapeFunction = $this->__escapeFunction;
 
-        return $f($s);
+        return $escapeFunction($string);
     }
 
     /**
-     *
+     * Removes all assigned variables.
      */
     public function clear()
     {

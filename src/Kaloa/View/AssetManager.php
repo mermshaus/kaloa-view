@@ -1,60 +1,115 @@
 <?php
+/**
+ * Kaloa Library (http://www.kaloa.org/)
+ *
+ * @license http://www.kaloa.org/license.txt MIT License
+ */
 
 namespace Kaloa\View;
 
+/**
+ * Helper class to add CSS/JS assets to an HTML document.
+ */
 class AssetManager
 {
+    /** @var array List of assets. */
     protected $assets;
 
+    /**
+     * Initializes the instance.
+     */
     public function __construct()
     {
         $this->assets['js'] = array();
         $this->assets['css'] = array();
     }
 
-    public function addJavaScript($js)
+    /**
+     * Adds a path to a JavaScript file to the managed assets.
+     *
+     * @param string $path Path to JavaScript file.
+     */
+    public function addJavaScript($path)
     {
-        $this->assets['js'][] = $js;
-        return $this;
+        $this->assets['js'][] = $path;
     }
 
-    public function addStylesheet($css)
+    /**
+     * Adds a path to a CSS file to the managed assets.
+     *
+     * @param string $path Path to CSS file.
+     */
+    public function addStylesheet($path)
     {
-        $this->assets['css'][] = $css;
-        return $this;
+        $this->assets['css'][] = $path;
     }
 
-    public function css($css)
+    /**
+     * Wraps an IE conditional comment around a string.
+     *
+     * @param string $string
+     * @param string $condition
+     * @return string
+     */
+    protected function wrapWithConditionalComment($string, $condition)
     {
-        return $this->addStylesheet($css);
+        $html = array();
+
+        $html[] = '<!--[if ' . $condition . ']>';
+        $html[] = $string;
+        $html[] = '<![endif]-->';
+
+        return $html;
     }
 
-    public function js($js)
-    {
-        return $this->addJavaScript($js);
-    }
-
+    /**
+     * Generates HTML output.
+     *
+     * @return Generated HTML output.
+     */
     public function generate()
     {
-        $s = array();
+        $html = array();
 
         foreach ($this->assets['css'] as $file) {
-            $s[] = '<link rel="stylesheet" type="text/css" href="' . $file . '" />';
-        }
+            $path = $file;
 
-        foreach ($this->assets['js'] as $file) {
-             if (is_array($file) && $file['type'] === 'cc') {
-                $s[] = '<!--[if '.$file['value'].']>';
-              $s[] = '<script src="' . $file['file'] . '"></script>';
-             } else {
-              $s[] = '<script src="' . $file . '"></script>';
-             }
+            if (is_array($file)) {
+                $path = $file['file'];
+            }
+
+            $line = '<link rel="stylesheet" type="text/css" href="'
+                    . $path . '" />';
 
             if (is_array($file) && $file['type'] === 'cc') {
-                $s[] = '<![endif]-->';
+                $html = array_merge(
+                    $html,
+                    $this->wrapWithConditionalComment($line, $file['value'])
+                );
+            } else {
+                $html[] = $line;
             }
         }
 
-        return implode("\n", $s);
+        foreach ($this->assets['js'] as $file) {
+            $path = $file;
+
+            if (is_array($file)) {
+                $path = $file['file'];
+            }
+
+            $line = '<script src="' . $path . '"></script>';
+
+            if (is_array($file) && $file['type'] === 'cc') {
+                $html = array_merge(
+                    $html,
+                    $this->wrapWithConditionalComment($line, $file['value'])
+                );
+            } else {
+                $html[] = $line;
+            }
+        }
+
+        return implode("\n", $html);
     }
 }
