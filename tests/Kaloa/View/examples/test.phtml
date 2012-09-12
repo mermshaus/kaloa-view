@@ -1,5 +1,5 @@
-<h1><?= $this->escape($this->title); ?></h1>
+<h1><?php echo $this->escape($this->title); ?></h1>
 
 <?php foreach ($this->articles as $article) : ?>
-    <h2><?= $this->escape($article); ?></h2>
+    <h2><?php echo $this->escape($article); ?></h2>
 <?php endforeach; ?>
