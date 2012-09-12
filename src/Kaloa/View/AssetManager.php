@@ -13,7 +13,7 @@ namespace Kaloa\View;
 class AssetManager
 {
     /** @var array List of assets. */
-    protected $assets;
+    private $assets;
 
     /**
      * Initializes the instance.
@@ -51,7 +51,7 @@ class AssetManager
      * @param string $condition
      * @return string
      */
-    protected function wrapWithConditionalComment($string, $condition)
+    private function wrapWithConditionalComment($string, $condition)
     {
         $html = array();
 

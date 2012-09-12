@@ -15,10 +15,10 @@ use Closure;
 class View
 {
     /** @var array Variables set for this view. */
-    protected $__vars;
+    private $__vars;
 
     /** @var Closure The function used by the escape method. */
-    protected $__escapeFunction;
+    private $__escapeFunction;
 
     /**
      * Initializes the instance.
