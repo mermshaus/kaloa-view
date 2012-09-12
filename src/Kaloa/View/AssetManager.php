@@ -12,7 +12,11 @@ namespace Kaloa\View;
  */
 class AssetManager
 {
-    /** @var array List of assets. */
+    /**
+     * List of assets managed by this instance.
+     *
+     * @var array
+     */
     private $assets;
 
     /**
@@ -65,7 +69,7 @@ class AssetManager
     /**
      * Generates HTML output.
      *
-     * @return Generated HTML output.
+     * @return string Generated HTML output.
      */
     public function generate()
     {
