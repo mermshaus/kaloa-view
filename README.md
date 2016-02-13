@@ -1,4 +1,4 @@
-Kaloa Library for PHP -- View
+# Kaloa Library for PHP -- View
 
 The package as a whole is published under the MIT License. See LICENSE for full
 license info.
@@ -6,17 +6,19 @@ license info.
 http://www.kaloa.org/
 
 
-Quality assurance
-=================
+## Quality assurance
 
 Run all tools from this file's directory. The tools need to be available on your
 system.
 
 Unit tests:
 
-    $ phpunit .
-    $ phpunit --testdox .
+~~~ bash
+$ phpunit
+~~~
 
 Code analysis:
 
-    $ phpmd ./src text codesize,design,naming
+~~~ bash
+$ phpmd ./src text codesize,design,naming
+~~~
