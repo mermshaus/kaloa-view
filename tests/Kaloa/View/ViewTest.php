@@ -1,5 +1,6 @@
 <?php
-/**
+
+/*
  * This file is part of the kaloa/view package.
  *
  * For full copyright and license information, please view the LICENSE file
@@ -8,15 +9,40 @@
 
 namespace Kaloa\Tests;
 
-use PHPUnit_Framework_TestCase;
-
 use Kaloa\View\View;
+use PHPUnit_Framework_TestCase;
 
 /**
  *
  */
 class ViewTest extends PHPUnit_Framework_TestCase
 {
+    public function testValuesCanBeCleared()
+    {
+        $view = new View();
+
+        $this->assertEquals(null, $view->title);
+
+        $view->title = 'Foo';
+
+        $this->assertEquals('Foo', $view->title);
+
+        $view->clear();
+
+        $this->assertEquals(null, $view->title);
+    }
+
+    public function testValuesCanBeSetOnRender()
+    {
+        $view = new View();
+
+        $view->title = 'Foo';
+
+        $view->render(__DIR__ . '/examples/empty', array('title' => 'Bar'));
+
+        $this->assertEquals('Bar', $view->title);
+    }
+
     public function testHtmlTestSuiteSucceeds()
     {
         $view = new View();

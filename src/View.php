@@ -1,5 +1,6 @@
 <?php
-/**
+
+/*
  * This file is part of the kaloa/view package.
  *
  * For full copyright and license information, please view the LICENSE file
