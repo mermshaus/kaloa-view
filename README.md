@@ -50,4 +50,4 @@ $ ./vendor/bin/phpmd ./src text codesize,design,naming
 
 ## License
 
-The package is published under the MIT License. See [LICENSE](https://github.com/mermshaus/kaloa-renderer/blob/master/LICENSE) for full license info.
+The package is published under the MIT License. See [LICENSE](https://github.com/mermshaus/kaloa-view/blob/master/LICENSE) for full license info.
